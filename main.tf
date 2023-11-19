@@ -7,7 +7,6 @@ locals {
     "h" = 60 * 60
     "d" = 60 * 60 * 24
   }
-
 }
 
 data "grafana_data_source" "prometheus" {
