@@ -1,0 +1,834 @@
+apiVersion: 1
+groups:
+    - orgId: 2
+      name: example alerts group
+      folder: example alerts
+      interval: 5m
+      rules:
+        - uid: ce57b496-ee00-44db-b3fb-24c6d1c0bc49
+          title: Container CPU Usage (from Limit)
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: "avg by (container_name, workload_name, namespace) (\n    rate(groundcover_container_m_cpu_usage_seconds_total{}[60s]) / \n    groundcover_container_cpu_limit_m_cpu{}\n)"
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{container_name}}@{{namespace}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.9
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 4
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "4"
+          isPaused: false
+        - uid: bafff0bb-0e00-405f-9c37-feaaf6663c6b
+          title: Container Memory Usage (from Limit)
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: "avg by (container_name, workload_name, namespace) (\n    groundcover_container_mem_working_set_bytes{} / \n    groundcover_container_memory_limit_bytes{}\n)"
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{container_name}}@{{namespace}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.9
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 5
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "5"
+          isPaused: false
+        - uid: e07ef400-dddc-4212-801b-d906cafbd2dc
+          title: Node CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: "sum by (node_name) (\n    rate(groundcover_node_m_cpu_usage_seconds_total{}[60s]) / \n    groundcover_node_allocatable_cpum_cpu{}\n)"
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{node_name}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.9
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 6
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "6"
+          isPaused: false
+        - uid: ed9a510e-5360-4ec7-a2e7-a65d001bb7a7
+          title: Node Memory Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: "sum by (node_name) (\n    groundcover_node_mem_working_set_bytes{} / \n    groundcover_node_allocatable_mem_bytes{}\n)"
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{node_name}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.9
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 8
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "8"
+          isPaused: false
+        - uid: d5067023-510d-45f0-9a38-b7d30ba14d92
+          title: PVC Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: groundcover_pvc_usage_percent{}
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{name}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 90
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 7
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "7"
+          isPaused: false
+        - uid: b498d208-ab2f-4b9a-a4f7-48bec4641f00
+          title: Node Disk Pressure
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: groundcover_node_disk_space_used_percent{}
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{node_name}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 9090
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 9
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "9"
+          isPaused: false
+        - uid: b0fcf78b-4631-46c4-a8ca-10fed07eb84c
+          title: Workload Error Rate
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: "(sum by (\n    workload_name, namespace\n) (increase(\n    groundcover_workload_error_counter{\n    type=~\".*http|grpc\",status_code!~\"4.*\", role=\"server\"}[60s]\n) ) or (0))\n/\nsum by (\n    workload_name, namespace\n) (increase(\n    groundcover_workload_total_counter{\n    type=~\".*http|grpc\", role=\"server\"}[60s]\n)) "
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{workload_name}} @ {{namespace}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.9
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 12
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "12"
+          isPaused: false
+        - uid: d49bf5eb-931b-4965-9e02-ebe0a51d092e
+          title: Workload P50 Latency
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: |-
+                    avg(
+                        groundcover_workload_latency_seconds{
+                            type=~".*http|grpc", role="server", quantile="0.50"
+                        }
+                    ) by (workload_name, namespace)
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{workload_name}}@{{namespace}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 14
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "14"
+          isPaused: false
+        - uid: a0cd30db-e17c-4963-926c-931791068f99
+          title: 'Container OOM Kills '
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 900
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: increase(groundcover_resource_issue_counter{type="container_crash", crash_reason="OOMKilled"}) or 0
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{container_name}}@{{namespace}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 900
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 900
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 19
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "19"
+          isPaused: false
+        - uid: a965c2a8-55b0-4907-90d2-aea440c6309d
+          title: Deployment Not Available
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 900
+                to: 0
+              datasourceUid: _3juZM2Vz
+              model:
+                datasource:
+                    type: prometheus
+                    uid: _3juZM2Vz
+                editorMode: code
+                expr: 'increase(groundcover_resource_issue_counter{type="unavailable_deployment"}) or 0 '
+                instant: false
+                interval: ""
+                intervalMs: 30000
+                legendFormat: '{{workload_name}}@{{namespace}}'
+                maxDataPoints: 43200
+                range: true
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 900
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              relativeTimeRange:
+                from: 900
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bea83dbd-ce49-488c-8bb5-b2bb29872970
+          panelId: 20
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: bea83dbd-ce49-488c-8bb5-b2bb29872970
+            __panelId__: "20"
+          isPaused: false
